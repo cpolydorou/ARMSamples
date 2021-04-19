@@ -22,3 +22,5 @@ The resource to be deployed contain:
 * Azure Virtual Machines
     * Domain Controller (Windows Server)
     * Client (Windows 10)
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcpolydorou%2FARMSamples%2Fmain%2FLab%2520Active%2520Directory%2520Environment%2FLabActiveDirectoryEnvironment.json)
