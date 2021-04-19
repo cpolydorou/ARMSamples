@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westeurope"
+    },
+    "dcVMSize": {
+        "value": "Standard_B2ms"
+    },
+    "dcOSVersion":{
+        "value": "2019-Datacenter"
+    },
+    "serverVMSize": {
+      "value": "Standard_B2ms"
+    },
+    "serverOSVersion":{
+      "value": "2019-Datacenter"
+    },
+    "clientVMSize": {
+      "value": "Standard_B2ms"
+    },
+    "clientOSVersion":{
+      "value": "20h2-pro"
+    },
+    "localAdministratorUsername": {
+        "value": "localadmin"
+    },
+    "localAdministratorPassword": {
+        "value": "yourPasswordHere"
+    },
+    "activeDirectoryDomainName":{
+        "value": "test.local"
+    },
+    "activeDirectoryAdministratorUsername":{
+        "value": "test\\administrator"
+    },
+    "activeDirectoryAdministratorPassword":{
+        "value": "yourPasswordHere"
+    },
+    "keyVaultAdministratorUserObjectId":{
+        "value": "yourKeyvaultAdministratorUserIdHere"
+    }
+  }
+}
