@@ -1,0 +1,411 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Specifies the location in which to create the automation account."
+            }
+        },
+        "automationAccountName": {
+            "type": "string",
+            "defaultValue": "AutomationAccount",
+            "metadata": {
+                "description": "Specifies the name of the Automation Account."
+            }
+        },
+        "activeDirectoryDomainName": {
+            "type": "string",
+            "defaultValue": "test.local",
+            "metadata": {
+                "description": "Specifies the name of the Active Directory domain."
+            }
+        },
+        "localAdministratorUsername": {
+            "type": "string",
+            "defaultValue": "localadmin",
+            "metadata": {
+                "description": "Specifies the name of the local administrator account."
+            }
+        },
+        "localAdministratorPassword": {
+            "type": "securestring",
+            "defaultValue": "1234asdf!@#$",
+            "metadata": {
+                "description": "Specifies the password of the local administrator account."
+            }
+        },
+        "activeDirectoryAdministratorUsername": {
+            "type": "string",
+            "defaultValue": "localadmin",
+            "metadata": {
+                "description": "Specifies the name of the active directory administrator account."
+            }
+        },
+        "activeDirectoryAdministratorPassword": {
+            "type": "securestring",
+            "defaultValue": "1234asdf!@#$",
+            "metadata": {
+                "description": "Specifies the password of the active directory administrator account."
+            }
+        }
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Automation/automationAccounts",
+            "apiVersion": "2020-01-13-preview",
+            "name": "[parameters('automationAccountName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "sku": {
+                "name": "Basic"
+                }
+            },
+            "resources": [
+                {
+                    "name": "ActiveDirectoryPrimaryDomainController",
+                    "type": "/configurations",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "logVerbose": "true",
+                        "logProgress": "true",
+                        "source": {
+                            "hash": {
+                                "algorithm": "SHA256",
+                                "value": "70CD2A1C707E57E444B81BF682BA253AD9C8D91C254A90151D59FBCFA4F41F7D"
+                            },
+                            "type": "uri",
+                            "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab%20Active%20Directory%20Environment/DSC%20Configurations/ActiveDirectoryPrimaryDomainController.ps1",
+                            "version-": "string"
+                        },
+                        "parameters": {},
+                        "description": "Active Directory Primary Domain Controller Configuration"
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts', concat(parameters('automationAccountName')))]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xStorage')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xActiveDirectory')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xPendingReboot')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xDnsServer')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xPowerShellExecutionPolicy')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/variables', parameters('automationAccountName'), 'ActiveDirectoryDomainName')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'LocalAdministrator')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'ActiveDirectorySafeModePassword')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'ActiveDirectoryDomainAdministrator')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'DomainJoinAccount')]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryMemberServer",
+                    "type": "/configurations",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "logVerbose": "true",
+                        "logProgress": "true",
+                        "source": {
+                            "hash": {
+                                "algorithm": "SHA256",
+                                "value": "7069A0D1DAC3244D5870207C3F8F08658EE5E8F8AAD3C45BECAECEF1AD5E5E7C"
+                            },
+                            "type": "uri",
+                            "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab%20Active%20Directory%20Environment/DSC%20Configurations/ActiveDirectoryMemberServer.ps1",
+                            "version-": "string"
+                        },
+                        "parameters": {},
+                        "description": "Active Directory Member Server Configuration"
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts', concat(parameters('automationAccountName')))]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xStorage')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xActiveDirectory')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xPendingReboot')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xDnsServer')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xPowerShellExecutionPolicy')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/variables', parameters('automationAccountName'), 'ActiveDirectoryDomainName')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'LocalAdministrator')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'ActiveDirectorySafeModePassword')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'ActiveDirectoryDomainAdministrator')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'DomainJoinAccount')]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryMemberClient",
+                    "type": "/configurations",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "logVerbose": "true",
+                        "logProgress": "true",
+                        "source": {
+                            "hash": {
+                                "algorithm": "SHA256",
+                                "value": "2ADDE27C28238EAAA7189E278B5A614C79F6CBAD4F516179632AF81275E47479"
+                            },
+                            "type": "uri",
+                            "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab%20Active%20Directory%20Environment/DSC%20Configurations/ActiveDirectoryMemberClient.ps1",
+                            "version-": "string"
+                        },
+                        "parameters": {},
+                        "description": "Active Directory Member Client Configuration"
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts', concat(parameters('automationAccountName')))]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xStorage')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xActiveDirectory')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xPendingReboot')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xDnsServer')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationAccountName'), 'xPowerShellExecutionPolicy')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/variables', parameters('automationAccountName'), 'ActiveDirectoryDomainName')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'LocalAdministrator')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'ActiveDirectorySafeModePassword')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'ActiveDirectoryDomainAdministrator')]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/credentials', parameters('automationAccountName'), 'DomainJoinAccount')]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryPrimaryDomainControllerJob",
+                    "type": "/compilationjobs",
+                    "apiVersion": "2018-01-15",
+                    "properties": {
+                        "configuration": {
+                        "name": "ActiveDirectoryPrimaryDomainController"
+                        },
+                        "parameters": {},
+                        "incrementNodeConfigurationBuild": "true"
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/configurations', parameters('automationAccountName'), 'ActiveDirectoryPrimaryDomainController')]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryMemberServerJob",
+                    "type": "/compilationjobs",
+                    "apiVersion": "2018-01-15",
+                    "properties": {
+                        "configuration": {
+                        "name": "ActiveDirectoryMemberServer"
+                        },
+                        "parameters": {},
+                        "incrementNodeConfigurationBuild": "true"
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/configurations', parameters('automationAccountName'), 'ActiveDirectoryMemberServer')]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryMemberClientJob",
+                    "type": "/compilationjobs",
+                    "apiVersion": "2018-01-15",
+                    "properties": {
+                        "configuration": {
+                        "name": "ActiveDirectoryMemberClient"
+                        },
+                        "parameters": {},
+                        "incrementNodeConfigurationBuild": "true"
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/configurations', parameters('automationAccountName'), 'ActiveDirectoryMemberClient')]"
+                    ]
+                },
+                {
+                    "name": "xStorage",
+                    "type": "/modules",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "contentLink": {
+                        "uri": "https://www.powershellgallery.com/api/v2/package/xStorage/",
+                        "contentHash": {
+                            "algorithm": "SHA256",
+                            "value": "188F1371C2EBB159315393B5F14C5FB070E4C505500C5A1F6C3076AAF5E878FA"
+                        },
+                        "version": "3.4.0.0"
+                        }
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "xActiveDirectory",
+                    "type": "/modules",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "contentLink": {
+                        "uri": "https://www.powershellgallery.com/api/v2/package/xActiveDirectory/",
+                        "contentHash": {
+                            "algorithm": "SHA256",
+                            "value": "879EF490ED70139A76E6DDA0EAC7807149E0447702519831526DB10E4CE3663B"
+                        },
+                        "version": "3.0.0"
+                        }
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "xPendingReboot",
+                    "type": "/modules",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "contentLink": {
+                        "uri": "https://www.powershellgallery.com/api/v2/package/xPendingReboot/",
+                        "contentHash": {
+                            "algorithm": "SHA256",
+                            "value": "2FBADA64B9B1424EE72BADF3C332E9670C97E0CC4D20CE4AEB8A499BDA2B4D4E"
+                        },
+                        "version": "0.4.0.0"
+                        }
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "xDnsServer",
+                    "type": "/modules",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "contentLink": {
+                        "uri": "https://www.powershellgallery.com/api/v2/package/xDnsServer",
+                        "contentHash": {
+                            "algorithm": "SHA256",
+                            "value": "82768793F2C7BD218EAEBE4A135A1AE4FE93E8F40621E19EB0411D78B5AF10DA"
+                        },
+                        "version": "1.16.0"
+                        }
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "xPowerShellExecutionPolicy",
+                    "type": "/modules",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "contentLink": {
+                        "uri": "https://www.powershellgallery.com/api/v2/package/xPowerShellExecutionPolicy/",
+                        "contentHash": {
+                            "algorithm": "SHA256",
+                            "value": "18FC4F690DBC433528B6F27809066AD24E91E01B8C4E057E8163E64CD0EF67BC"
+                        },
+                        "version": "3.1.0"
+                        }
+                    },
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryDomainName",
+                    "condition": "[not(empty(parameters('activeDirectoryDomainName')))]",
+                    "type": "/variables",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "value": "[concat('\"', parameters('activeDirectoryDomainName'), '\"')]",
+                        "description": "The name of the Active Directory Domain",
+                        "isEncrypted": "false"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "LocalAdministrator",
+                    "type": "/credentials",
+                    "condition": "[not(or(empty(parameters('localAdministratorUsername')),empty(parameters('localAdministratorPassword'))))]",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "userName": "[parameters('localAdministratorUsername')]",
+                        "password": "[parameters('localAdministratorPassword')]",
+                        "description": "The credentials for the local administrator accounts"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectorySafeModePassword",
+                    "condition": "[not(or(empty(parameters('activeDirectoryAdministratorUsername')),empty(parameters('activeDirectoryAdministratorPassword'))))]",
+                    "type": "/credentials",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "userName": "[parameters('activeDirectoryAdministratorUsername')]",
+                        "password": "[parameters('activeDirectoryAdministratorPassword')]",
+                        "description": "The credentials for the Active Directory Safe Mode."
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "ActiveDirectoryDomainAdministrator",
+                    "condition": "[not(or(empty(parameters('activeDirectoryAdministratorUsername')),empty(parameters('activeDirectoryAdministratorPassword'))))]",
+                    "type": "/credentials",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "userName": "[parameters('activeDirectoryAdministratorUsername')]",
+                        "password": "[parameters('activeDirectoryAdministratorPassword')]",
+                        "description": "The credentials for the Active Directory administrator account."
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                },
+                {
+                    "name": "DomainJoinAccount",
+                    "condition": "[not(or(empty(parameters('activeDirectoryAdministratorUsername')),empty(parameters('activeDirectoryAdministratorPassword'))))]",
+                    "type": "/credentials",
+                    "apiVersion": "2015-10-31",
+                    "properties": {
+                        "userName": "[parameters('activeDirectoryAdministratorUsername')]",
+                        "password": "[parameters('activeDirectoryAdministratorPassword')]",
+                        "description": "The credentials for the Active Directory administrator account."
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
+                    ]
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "automationAccountRegistrationKey": {
+            "value": "[listKeys(resourceId('Microsoft.Automation/automationAccounts/', parameters('automationAccountName')), '2018-06-30').Keys[0].value]",
+            "type" : "string"
+        },
+        "automationAccountRegistrationUrl": {
+            "value": "[reference(concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))).registrationUrl]",
+            "type" : "string"
+        }
+    }
+}

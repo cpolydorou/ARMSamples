@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "vNetName":{
+            "value": "vnet"
+        },
+        "vnetAddressPrefix":{
+            "value": "10.0.0.0/16"
+        },
+        "subnet1Name":{
+            "value": "Networking"
+        },
+        "subnet1Prefix":{
+            "value": "10.0.0.0/24"
+        },
+        "subnet2Name":{
+            "value": "AzureBastionSubnet"
+        },
+        "subnet2Prefix":{
+            "value": "10.0.1.0/24"
+        },
+        "subnet3Name":{
+            "value": "ActiveDirectory"
+        },
+        "subnet3Prefix":{
+            "value": "10.0.2.0/24"
+        },
+        "subnet4Name":{
+            "value": "Servers"
+        },
+        "subnet4Prefix":{
+            "value": "10.0.3.0/24"
+        },
+        "subnet5Name":{
+            "value": "Clients"
+        },
+        "subnet5Prefix":{
+            "value": "10.0.4.0/24"
+        }
+    }
+  }

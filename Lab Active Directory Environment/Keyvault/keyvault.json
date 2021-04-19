@@ -1,0 +1,141 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Specifies the location in which to create the key vault."
+            }
+        },
+        "keyVaultName": {
+            "type": "string",
+            "defaultValue": "[uniqueString('infrakv')]",
+            "metadata": {
+                "description": "Specifies the name of the key vault."
+            }
+        },
+        "keyVaultAdministratorUserObjectId": {
+            "type": "string",
+            "defaultValue": "[newGuid()]",
+            "metadata": {
+                "description": "Specifies the user identity of the key vault administrator user."
+            }
+        },
+        "localAdministratorUsername": {
+            "type": "string",
+            "defaultValue": "localadmin",
+            "metadata": {
+                "description": "Specifies the name of the local administrator account (used for virtual machine deployments)."
+            }
+        },
+        "localAdministratorPassword": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Specifies the password of the local administrator account (used for virtual machine deployments)."
+            }
+        },
+        "activeDirectoryAdministratorUsername": {
+            "type": "string",
+            "defaultValue": "localadmin",
+            "metadata": {
+                "description": "Specifies the username of the active directory administrator account (used for virtual machine deployments)."
+            }
+        },
+        "activeDirectoryAdministratorPassword": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Specifies the password of the active directory administrator account (used for virtual machine deployments)."
+            }
+        }
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2019-09-01",
+            "name": "[parameters('keyVaultName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "enabledForDeployment": true,
+                "enabledForDiskEncryption": true,
+                "enabledForTemplateDeployment": true,
+                "tenantId": "[subscription().tenantId]",
+                "accessPolicies": [
+                    {
+                        "objectId": "[parameters('keyVaultAdministratorUserObjectId')]",
+                        "tenantId": "[subscription().tenantId]",
+                        "permissions": {
+                            "keys": ["all"],
+                            "secrets": ["all"]
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "Standard",
+                    "family": "A"
+                },
+                "networkAcls": {
+                    "defaultAction": "Allow",
+                    "bypass": "AzureServices"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "apiVersion": "2019-09-01",
+            "name": "[concat(parameters('keyVaultName'), '/LocalAdministrator-Username')]",
+            "condition": "[not(empty(parameters('localAdministratorUsername')))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+            ],
+            "properties": {
+                "value": "[parameters('localAdministratorUsername')]"
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "apiVersion": "2019-09-01",
+            "name": "[concat(parameters('keyVaultName'), '/LocalAdministrator-Password')]",
+            "condition": "[not(empty(parameters('localAdministratorPassword')))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+                ],
+            "properties": {
+                "value": "[parameters('localAdministratorPassword')]"
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "apiVersion": "2019-09-01",
+            "name": "[concat(parameters('keyVaultName'), '/DomainAdministrator-Username')]",
+            "condition": "[not(empty(parameters('activeDirectoryAdministratorUsername')))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+            ],
+            "properties": {
+                "value": "[parameters('activeDirectoryAdministratorUsername')]"
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "apiVersion": "2019-09-01",
+            "name": "[concat(parameters('keyVaultName'), '/DomainAdministrator-Password')]",
+            "condition": "[not(empty(parameters('activeDirectoryAdministratorPassword')))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+            ],
+            "properties": {
+                "value": "[parameters('activeDirectoryAdministratorPassword')]"
+            }
+        }
+    ]
+}

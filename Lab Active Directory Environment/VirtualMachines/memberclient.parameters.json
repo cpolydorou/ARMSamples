@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "clientVMName":{
+            "value": "Client1"
+        },
+        "clientOSVersion":{
+            "value": "20h2-ent"
+        },
+        "localAdministratorUsername":{
+            "value": "localadmin"
+        },
+        "localAdministratorPassword":{
+            "value": "yourPasswordHere"
+        },
+        "clientVMSize":{
+            "value": "Standard_B2ms"
+        },
+        "nicSuffix":{
+            "value": "-NIC1"
+        },
+        "IPAddress":{
+            "value": "10.0.4.5"
+        },
+        "DNSServer":{
+            "value": "10.0.2.5"
+        },
+        "vnetName":{
+            "value": "vnet"
+        },
+        "subnetName":{
+            "value": "Clients"
+        },
+        "diagnosticsStorageAccountUri":{
+            "value": "yourStorageAccountBlobUriHere"
+        },
+        "automationAccountRegistrationKey":{
+            "value": "yourStorageAccountRegistrationKeyHere"
+        },
+        "automationAccountRegistrationUrl":{
+            "value": "yourStorageAccountRegistrationUrlHere"
+        }
+    }
+  }

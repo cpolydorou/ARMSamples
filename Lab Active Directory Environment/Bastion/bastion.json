@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Specifies the location in which to create the bastion."
+            }
+        },
+        "bastionPublicIPAddressName": {
+            "type": "string",
+            "defaultValue": "bastion",
+            "metadata": {
+                "description": "Specifies the name of the bastion IP address."
+            }
+        },
+        "bastionHostname": {
+            "type": "string",
+            "defaultValue": "testbastion",
+            "metadata": {
+                "description": "Specifies the name of the bastion."
+            }
+        },
+        "vnetName": {
+            "type": "string",
+            "defaultValue": "vnet",
+            "metadata": {
+                "description": "Specifies the name of the vNet to connect to."
+            }
+        }
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-05-01",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "name": "[parameters('bastionPublicIPAddressName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Static"
+            }
+        },
+        {
+            "name": "[parameters('bastionHostname')]",
+            "type": "Microsoft.Network/bastionHosts",
+            "apiVersion": "2020-07-01",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {
+                "ipConfigurations": [
+                {
+                    "id": "string",
+                    "properties": {
+                        "subnet": {
+                            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'AzureBastionSubnet')]"
+                        },
+                        "publicIPAddress": {
+                            "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionPublicIPAddressName'))]"
+                        }
+                    },
+                    "name": "BastionIPConfig"
+                }
+                ],
+                "dnsName": "string"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionPublicIPAddressName'))]"
+            ]
+        }
+   ]
+}

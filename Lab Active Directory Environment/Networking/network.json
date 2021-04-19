@@ -1,0 +1,196 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Specifies the location in which to create the virtual network."
+            }
+        },
+        "vNetName": {
+            "type": "string",
+            "defaultValue": "vNet",
+            "metadata": {
+                "description": "Specifies the name of the Virtual Network."
+            }
+        },
+        "vnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16",
+            "metadata": {
+                "description": "Specifies the IP address prefix of the virtual network."
+            }
+        },
+        "subnet1Name": {
+            "type": "string",
+            "defaultValue": "subnet1",
+            "metadata": {
+                "description": "Specifies the name for the subnet1 subnet."
+            }
+        },
+        "subnet1Prefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/24",
+            "metadata": {
+                "description": "Specifies the IP address prefix for the subnet1 subnet."
+            }
+        },
+        "subnet2Name": {
+            "type": "string",
+            "defaultValue": "subnet2",
+            "metadata": {
+                "description": "Specifies the name for the subnet2 subnet."
+            }
+        },
+        "subnet2Prefix": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24",
+            "metadata": {
+                "description": "Specifies the IP address prefix for the subnet2 subnet."
+            }
+        },
+        "subnet3Name": {
+            "type": "string",
+            "defaultValue": "subnet3",
+            "metadata": {
+                "description": "Specifies the name for the subnet3 subnet."
+            }
+        },
+        "subnet3Prefix": {
+            "type": "string",
+            "defaultValue": "10.0.2.0/24",
+            "metadata": {
+                "description": "Specifies the IP address prefix for the subnet3 subnet."
+            }
+        },
+        "subnet4Name": {
+            "type": "string",
+            "defaultValue": "subnet4",
+            "metadata": {
+                "description": "Specifies the name for the subnet4 subnet."
+            }
+        },
+        "subnet4Prefix": {
+            "type": "string",
+            "defaultValue": "10.0.3.0/24",
+            "metadata": {
+                "description": "Specifies the IP address prefix for the subnet4 subnet."
+            }
+        },
+        "subnet5Name": {
+            "type": "string",
+            "defaultValue": "subnet5",
+            "metadata": {
+                "description": "Specifies the name for the subnet5 subnet."
+            }
+        },
+        "subnet5Prefix": {
+            "type": "string",
+            "defaultValue": "10.0.4.0/24",
+            "metadata": {
+                "description": "Specifies the IP address prefix for the subnet5 subnet."
+            }
+        }
+    },
+    "variables": {
+        "subnet1Name": "[if(empty(parameters('subnet1Name')), 'Subnet1', parameters('subnet1Name'))]",
+        "subnet2Name": "[if(empty(parameters('subnet2Name')), 'Subnet2', parameters('subnet2Name'))]",
+        "subnet3Name": "[if(empty(parameters('subnet3Name')), 'Subnet3', parameters('subnet3Name'))]",
+        "subnet4Name": "[if(empty(parameters('subnet4Name')), 'Subnet4', parameters('subnet4Name'))]",
+        "subnet5Name": "[if(empty(parameters('subnet5Name')), 'Subnet5', parameters('subnet5Name'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-05-01",
+            "name": "[parameters('vnetName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('vnetAddressPrefix')]"
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "subnets",
+                    "apiVersion": "2020-05-01",
+                    "location": "[parameters('location')]",
+                    "name": "[variables('subnet1Name')]",
+                    "condition": "[not(or(empty(parameters('subnet1Name')),empty(parameters('subnet1Prefix'))))]",
+                   "dependsOn": [
+                        "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[parameters('subnet1Prefix')]"
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2020-05-01",
+                    "location": "[parameters('location')]",
+                    "name": "[variables('subnet2Name')]",
+                    "condition": "[not(or(empty(parameters('subnet2Name')),empty(parameters('subnet2Prefix'))))]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet1Name'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[parameters('subnet2Prefix')]"
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2020-05-01",
+                    "location": "[parameters('location')]",
+                    "name": "[variables('subnet3Name')]",
+                    "condition": "[not(or(empty(parameters('subnet4Name')),empty(parameters('subnet3Prefix'))))]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet1Name'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet2Name'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[parameters('subnet3Prefix')]"
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2020-05-01",
+                    "location": "[parameters('location')]",
+                    "name": "[variables('subnet4Name')]",
+                    "condition": "[not(or(empty(parameters('subnet4Name')),empty(parameters('subnet4Prefix'))))]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet1Name'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet2Name'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet3Name'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[parameters('subnet4Prefix')]"
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2020-05-01",
+                    "location": "[parameters('location')]",
+                    "name": "[variables('subnet5Name')]",
+                    "condition": "[not(or(empty(parameters('subnet5Name')),empty(parameters('subnet5Prefix'))))]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet1Name'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet2Name'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet3Name'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnet4Name'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[parameters('subnet5Prefix')]"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "automationAccountName":{
+            "value": "AutomationAccountfsadfas"
+        },
+        "activeDirectoryDomainName":{
+            "value": "test.local"
+        },
+        "localAdministratorUsername":{
+            "value": ""
+        },
+        "localAdministratorPassword":{
+            "value": "1234asdf!@#$"
+        },
+        "activeDirectoryAdministratorUsername":{
+            "value": "test\\administrator"
+        },
+        "activeDirectoryAdministratorPassword":{
+            "value": ""
+        }
+    }
+  }
