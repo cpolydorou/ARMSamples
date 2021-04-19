@@ -76,10 +76,10 @@
                         "source": {
                             "hash": {
                                 "algorithm": "SHA256",
-                                "value": "70CD2A1C707E57E444B81BF682BA253AD9C8D91C254A90151D59FBCFA4F41F7D"
+                                "value": "10E53E2FE0B874BEEED452B25E2DE8E44077026063D86835DC516A99B05CF123"
                             },
                             "type": "uri",
-                            "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab%20Active%20Directory%20Environment/DSC%20Configurations/ActiveDirectoryPrimaryDomainController.ps1",
+                            "value": "https%3A%2F%2Fraw.githubusercontent.com%2Fcpolydorou%2FARMSamples%2Fmain%2FLab%20Active%20Directory%20Environment%2FDSC%20Configurations%2FActiveDirectoryPrimaryDomainController.ps1",
                             "version-": "string"
                         },
                         "parameters": {},
@@ -111,7 +111,7 @@
                         "source": {
                             "hash": {
                                 "algorithm": "SHA256",
-                                "value": "7069A0D1DAC3244D5870207C3F8F08658EE5E8F8AAD3C45BECAECEF1AD5E5E7C"
+                                "value": "53B6824E9F6B857B948466DE910CD1B28C748A89C71CAB613B9EA2B8EA97E766"
                             },
                             "type": "uri",
                             "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab%20Active%20Directory%20Environment/DSC%20Configurations/ActiveDirectoryMemberServer.ps1",
@@ -146,7 +146,7 @@
                         "source": {
                             "hash": {
                                 "algorithm": "SHA256",
-                                "value": "2ADDE27C28238EAAA7189E278B5A614C79F6CBAD4F516179632AF81275E47479"
+                                "value": "39AC8B1CBA61899FCDF2B35713E4A2BB9E33D13954F045C3420A3526ECD1471A"
                             },
                             "type": "uri",
                             "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab%20Active%20Directory%20Environment/DSC%20Configurations/ActiveDirectoryMemberClient.ps1",
