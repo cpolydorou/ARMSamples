@@ -74,10 +74,6 @@
                         "logVerbose": "true",
                         "logProgress": "true",
                         "source": {
-                            "hash": {
-                                "algorithm": "SHA256",
-                                "value": "10E53E2FE0B874BEEED452B25E2DE8E44077026063D86835DC516A99B05CF123"
-                            },
                             "type": "uri",
                             "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab-Active-Directory-Environment/DSC-Configurations/ActiveDirectoryPrimaryDomainController.ps1",
                             "version-": "string"
@@ -109,10 +105,6 @@
                         "logVerbose": "true",
                         "logProgress": "true",
                         "source": {
-                            "hash": {
-                                "algorithm": "SHA256",
-                                "value": "53B6824E9F6B857B948466DE910CD1B28C748A89C71CAB613B9EA2B8EA97E766"
-                            },
                             "type": "uri",
                             "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab-Active-Directory-Environment/DSC-Configurations/ActiveDirectoryMemberServer.ps1",
                             "version-": "string"
@@ -144,10 +136,6 @@
                         "logVerbose": "true",
                         "logProgress": "true",
                         "source": {
-                            "hash": {
-                                "algorithm": "SHA256",
-                                "value": "39AC8B1CBA61899FCDF2B35713E4A2BB9E33D13954F045C3420A3526ECD1471A"
-                            },
                             "type": "uri",
                             "value": "https://raw.githubusercontent.com/cpolydorou/ARMSamples/main/Lab-Active-Directory-Environment/DSC-Configurations/ActiveDirectoryMemberClient.ps1",
                             "version-": "string"
