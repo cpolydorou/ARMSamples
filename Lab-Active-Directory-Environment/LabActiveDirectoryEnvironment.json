@@ -132,6 +132,7 @@
         },
         "keyVaultAdministratorUserObjectId": {
             "type": "securestring",
+            "defaultValue": "",
             "metadata": {
                 "description": "The objectId of the user to be assigned as the key vault administrator."
             }
@@ -316,7 +317,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
             "name": "Keyvault",
-            "properties": {
+            "condition": "[not(empty(parameters('keyVaultAdministratorUserObjectId')))]",
+                "properties": {
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "[variables('KeyvaultDeploymentTemplateUri')]",
