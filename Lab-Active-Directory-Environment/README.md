@@ -18,7 +18,7 @@ The resource to be deployed contain:
     * DSC Credentials
 * Azure Key Vault
     * Key Vault Secrets
-* Azure Automation Account (Virtual Machine Diagnostics)
+* Azure Storage Account (Virtual Machine Diagnostics)
 * Azure Virtual Machines
     * Domain Controller (Windows Server)
     * Client (Windows 10)
