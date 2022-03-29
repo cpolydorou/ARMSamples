@@ -43,3 +43,6 @@ The parameters of the deployment are
 * Key Vaule Administrator User Object Id: The object ID of the user to be assigned full access to the Key Vault. Leave empty to not deploy the Key Vault (used to save the credentials used during the deployment). 
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcpolydorou%2FARMSamples%2Fmain%2FLab-Active-Directory-Environment%2FLabActiveDirectoryEnvironment.json)
+
+## Deployment Status
+![Build Status](https://vsrm.dev.azure.com/christospolydorou/_apis/public/Release/badge/a8001c7b-70d1-4fd4-b4b5-ab1a8bbbc570/3/3)
